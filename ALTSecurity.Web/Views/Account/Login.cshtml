@@ -1,0 +1,54 @@
+﻿@model ALTSecurity.Web.Models.Account.LoginModel
+@{
+    ViewBag.Title = "Вхід";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-login-image" @*style="background-image:url(https://source.unsplash.com/Mv9hjnEUHR4/600x800)"*@></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Увійти</h1>
+                        </div>
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "user" }))
+                        {
+                            @Html.ValidationSummary(true)
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-user", @id = "exampleInputEmail", @type = "email", @placeholder = "Email" })
+                                @Html.ValidationMessageFor(m => m.Email)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-user", @id = "exampleInputPassword", @type = "password", @placeholder = "Password" })
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox small">
+                                    @Html.CheckBox("customCheck", false, new { @id = "customCheck", @class = "custom-control-input" })
+                                    <label class="custom-control-label" for="customCheck">Запам'ятати мене</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                @*@Global.signButton*@ Увійти
+                            </button>
+                        }
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="forgot-password.html"> Забули пароль</a>
+                        </div>
+                        <div class="text-center">
+                            @Html.ActionLink(@*Global.register*@"Зареєструвтаись" + "!", "Register", "Account", new { area = "" }, new { @class = "small" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

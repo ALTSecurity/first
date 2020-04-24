@@ -1,0 +1,57 @@
+﻿@model ALTSecurity.Web.Models.Account.RegisterModel
+@{
+    ViewBag.Title = "Реєстрація";
+}
+
+@section scripts{
+}
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row no-gutters">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image" @*style="background-image:url(https://source.unsplash.com/Mv9hjnEUHR4/600x800)"*@></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Реєстрація</h1>
+                        </div>
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "user" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "")
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-user", @id = "exampleFirstName", @placeholder = "pib" })
+                                    @Html.ValidationMessageFor(m => m.UserName)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-user", @id = "exampleInputEmail", @type = "email", @placeholder = "email" })
+                                @Html.ValidationMessageFor(m => m.Email)
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-user", @id = "password", @type = "password", @placeholder = "password" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control form-control-user", @id = "confirmPassword", @type = "password", @placeholder = "confirm" })
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-user btn-block">
+                                Створити акаунт
+                            </button>
+                        }
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="forgot-password.html">Забули пароль?</a>
+                        </div>
+                        <div class="text-center">
+                            @Html.ActionLink("Вже зареєстровані? Увійдіть в систему!", "Login", "Account", new { area = "" }, new { @class = "small" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
