@@ -22,7 +22,7 @@
 
     @RenderSection("styles", false)
 </head>
-<body @(String.Format(@"{0}", User.Identity.IsAuthenticated && mode == LayoutMode.nav ? "id=\"page-top\"" : "class=\"bg-gradient-primary\""))>
+<body @(String.Format(@"{0}", User.Identity.IsAuthenticated && mode == LayoutMode.nav ? "id=page-top" : "class=bg-gradient-primary"))>
     @if (User.Identity.IsAuthenticated && mode == LayoutMode.nav)
     {
         <div id="wrapper">

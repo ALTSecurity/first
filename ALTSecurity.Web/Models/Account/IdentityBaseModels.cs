@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using ALTSecurity.Web.Utility;
 
 namespace ALTSecurity.Web.Models.Account
 {
     public class LoginModel
     {
         [Required(ErrorMessageResourceName = nameof(Resources.Global.required), ErrorMessageResourceType = typeof(Resources.Global))]
-        [Display()]
+        [DisplayNameLocalized(typeof(Resources.Global), "email")]
         [EmailAddress(ErrorMessageResourceName = nameof(Resources.Global.valueFormat), ErrorMessageResourceType = typeof(Resources.Global))]
         public string Email { get; set; }
 
         [Required(ErrorMessageResourceName = nameof(Resources.Global.required), ErrorMessageResourceType = typeof(Resources.Global))]
+        [DisplayNameLocalized(typeof(Resources.Global), "password")]
         public string Password { get; set; }
     }
 
