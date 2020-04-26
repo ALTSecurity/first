@@ -13,3 +13,19 @@ input[type="text"]:focus {
 .field-validation-error {
     color: #FF0000;
 }
+
+/*Validation summary*/
+.validation-summary-errors {
+    font-weight: bold;
+    color: #FF0000;
+}
+
+    .validation-summary-errors ul {
+        list-style: none;
+        margin-left: -40px
+    }
+
+.validation-summary-valid {
+    display: none;
+}
+

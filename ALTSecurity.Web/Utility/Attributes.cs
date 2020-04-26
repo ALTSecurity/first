@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace ALTSecurity.Web.Utility
 {
+    /// <summary>
+    /// Отображение локализированных имен полей
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Event)]
     public class DisplayNameLocalizedAttribute : DisplayNameAttribute
     {

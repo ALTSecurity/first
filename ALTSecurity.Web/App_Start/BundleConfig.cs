@@ -9,7 +9,8 @@ namespace ALTSecurity.Web.App_Start
             bundles.Add(new ScriptBundle("~/bundles/plugins").Include(
                         "~/scripts/jquery-cookie.js",
                         "~/scripts/jquery.serializeToJSON.js",
-                        "~/scripts/jquery.loadmask.js"
+                        "~/scripts/jquery.loadmask.js",
+                        "~/scripts/App/plugins.js"
                         ));
 
             bundles.Add(new StyleBundle("~/bundles/css/plugins").Include(
@@ -87,8 +88,6 @@ namespace ALTSecurity.Web.App_Start
                        "~/content/css/sb-admin-2.min.css",
                        "~/content/css/main.css"
                        ));
-
-            BundleTable.EnableOptimizations = true;
         }
     }
 }

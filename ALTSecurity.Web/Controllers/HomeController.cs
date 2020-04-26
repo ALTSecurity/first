@@ -14,5 +14,10 @@ namespace ALTSecurity.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Modal()
+        {
+            return PartialView("_ModalWindow");
+        }
     }
 }

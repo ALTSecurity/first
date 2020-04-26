@@ -1,5 +1,6 @@
 ﻿@using System.Web.Optimization
 @using ALTSecurity.Web.Models
+@using ALTSecurity.Web.Utility
 @{
     LayoutMode mode = ViewBag.LayoutMode == null ? LayoutMode.nav : ViewBag.LayoutMode;
 }
@@ -79,20 +80,20 @@
                 <!-- End of Main Content -->
                 <!-- Footer -->
                 <footer class="sticky-footer bg-gray">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>@Resources.Global.systemName -  @DateTime.Now.Year</span>
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>@Resources.Global.systemName -  @DateTime.Now.Year</span>
+                            </div>
                         </div>
-                    </div>
-                </footer>
+                    </footer>
                 <!-- End of Footer -->
 
             </div>
         </div>
 
         <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+                <i class="fas fa-angle-up"></i>
+            </a>
     }
     else
     {
@@ -107,6 +108,14 @@
     @Scripts.Render("~/bundles/datatables-bs4")
     @Scripts.Render("~/Scripts/jquery-easing/jquery.easing.min.js")
     @Scripts.Render("~/Scripts/App/app.js")
+
+    @Html.JsMinify(@<text>
+    <script>
+        $(document).ready(function () {
+            app.init();
+        });
+    </script>  
+    </text>)
 
     @RenderSection("scripts", false)
 

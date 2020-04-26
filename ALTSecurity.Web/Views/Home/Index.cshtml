@@ -1,1 +1,29 @@
-﻿
+﻿@using ALTSecurity.Web.Utility
+@{
+    ViewBag.Title = "Головна";
+}
+
+@section scripts{ 
+    @Html.JsMinify(@<text>
+         <script>
+             app.sectionInit = function () {
+                 $('#showModal').on('click', function () {
+                     $.modalConfirm(null, function (m, result) {
+                         if (result === modalResult.ok) {
+                                 console.log('works');
+                                 m.modal('hide');
+                             } else {
+                                 m.modal('hide');
+                             }
+                     });
+               
+                 });
+             };
+         </script>
+    </text>)
+}
+
+<button type="button" id="showModal" class="btn btn-primary">
+    Launch demo modal
+</button>
+

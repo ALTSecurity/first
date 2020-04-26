@@ -20,11 +20,11 @@
                             @Html.ValidationSummary(true)
                             @Html.AntiForgeryToken()
                             <div class="form-group">
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-user", @id = "exampleInputEmail", @type = "email", @placeholder = "Email" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-user", @id = "exampleInputEmail", @type = "email", @placeholder = Resources.Global.email })
                                 @Html.ValidationMessageFor(m => m.Email)
                             </div>
                             <div class="form-group">
-                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-user", @id = "exampleInputPassword", @type = "password", @placeholder = "Password" })
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control form-control-user", @id = "exampleInputPassword", @type = "password", @placeholder = Resources.Global.password })
                                 @Html.ValidationMessageFor(m => m.Password)
                             </div>
                             <div class="form-group">
@@ -42,7 +42,7 @@
                             <a class="small" href="forgot-password.html"> Забули пароль</a>
                         </div>
                         <div class="text-center">
-                            @Html.ActionLink(@*Global.register*@"Зареєструвтаись" + "!", "Register", "Account", new { area = "" }, new { @class = "small" })
+                            @Html.ActionLink(@*Global.register*@"Зареєструватись" + "!", "Register", "Account", new { area = "" }, new { @class = "small" })
                         </div>
                     </div>
                 </div>
