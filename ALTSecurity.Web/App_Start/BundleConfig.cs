@@ -45,6 +45,7 @@ namespace ALTSecurity.Web.App_Start
                   ));
 
             bundles.Add(new StyleBundle("~/content/datatables/media/css/datatables-bs4").Include(
+                       "~/content/datatables/media/css/datatables.bootstrap.*",
                        "~/content/datatables/media/css/dataTables.bootstrap4.*",
                        "~/content/datatables/extensions/select/css/select.bootstrap4.*",
                        "~/content/datatables/extensions/fixedheader/css/fixedHeader.bootstrap4.*",
@@ -88,6 +89,7 @@ namespace ALTSecurity.Web.App_Start
                        "~/content/css/sb-admin-2.min.css",
                        "~/content/css/main.css"
                        ));
+
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿var app = {
     sectionInit: null,
-    resources: null,
     init: function () {
         var scope = app;
         $.ajaxSetup({
@@ -64,14 +63,8 @@
             }
         );
 
-        //Инициализация ресурсов локализации
-        scope.resourcesInit();
-
         //Инициализация скриптов после главного объекта
         scope.sectionInit();
-    },
-    resourcesInit: function () {
-
     },
     resolveURL: function (url, crossDomain) {
         if (url.indexOf(document.location.host) !== -1) {

@@ -1,4 +1,7 @@
-﻿
+﻿/*DataTables*/
+.dataTable th, .dataTable td {
+    padding: 0.5rem;
+}
 /*jquery validation custom styles*/
 .input-validation-error {
     border-width: 1px;

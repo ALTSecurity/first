@@ -2239,11 +2239,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_GlobalResources\Plugins.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Plugins.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2256,6 +2262,8 @@
     <Compile Include="Models\Content.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Attributes.cs" />
+    <Compile Include="Utility\ControllerExtensions.cs" />
+    <Compile Include="Utility\DataTablesHelper.cs" />
     <Compile Include="Utility\HtmlHelpers.cs" />
     <Compile Include="Utility\OptimizationExtensions.cs" />
   </ItemGroup>
@@ -2282,6 +2290,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Service\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -2299,6 +2308,12 @@
     <Content Include="App_GlobalResources\Messages.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Plugins.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Plugins.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Globalization;
 using System.Web.Mvc;
 
 namespace ALTSecurity.Web.Controllers
@@ -14,6 +15,7 @@ namespace ALTSecurity.Web.Controllers
         {
             return View();
         }
+
 
         public ActionResult Modal()
         {

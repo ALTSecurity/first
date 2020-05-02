@@ -27,7 +27,7 @@ var modalResult = {
 
             var modal = null;
 
-            if (cache && $('.modal[data-url="' + url + '"]')) {
+            if (cache && $('.modal[data-url="' + url + '"]').length > 0) {
                 modal = $('.modal[data-url="' + url + '"]');
                 modal.modal();
             }

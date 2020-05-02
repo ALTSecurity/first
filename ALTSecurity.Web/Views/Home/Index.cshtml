@@ -3,27 +3,64 @@
     ViewBag.Title = "Головна";
 }
 
-@section scripts{ 
+@section scripts{
     @Html.JsMinify(@<text>
-         <script>
-             app.sectionInit = function () {
-                 $('#showModal').on('click', function () {
-                     $.modalConfirm(null, function (m, result) {
-                         if (result === modalResult.ok) {
-                                 console.log('works');
-                                 m.modal('hide');
-                             } else {
-                                 m.modal('hide');
-                             }
-                     });
-               
-                 });
-             };
-         </script>
+        <script>
+            app.sectionInit = function () {
+                $('#showModal').on('click', function () {
+                    $.ajaxModalWindow('/Home/Modal',
+                        {
+                            success: function (m, result) {
+                                m.modal('hide');
+                            }
+                        }, true);
+                });
+            };
+
+        </script>
+        
     </text>)
 }
 
 <button type="button" id="showModal" class="btn btn-primary">
     Launch demo modal
 </button>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table id="testTable" class="dataTable table-bordered table-striped" style="width:100%" role="grid">
+        </table>
+        @Html.DataTables(new DataTables("testTable")
+               {
+                   Dom = "rtlp",
+                   ClassName = "table-striped table-bordered",
+                   Columns = new List<DataTableColumn>
+                   {
+                   new DataTableColumn
+                   {
+                       data ="Name",
+                       title = "Назва"
+                   },
+                   new DataTableColumn
+                   {
+                       data ="Description",
+                       title = "Опис"
+                   },
+                   new DataTableColumn
+                   {
+                       data = "DbId",
+                       title = string.Empty,
+                       visible = false
+                   }
+                   },
+                   Order = new DataTablesOrdering { Column = 1, Type = OrderingType.desc },
+                   Searching = false,
+                   Selection = new DataTableSelection { Style = SelectionStyle.single }
+               })
+    </div>
+    </div>
+
+
+
 
