@@ -1,4 +1,5 @@
-﻿@using ALTSecurity.Web.Utility
+﻿@model List<ALTSecurity.Web.Models.Model>
+@using ALTSecurity.Web.Utility
 @{
     ViewBag.Title = "Головна";
 }
@@ -18,7 +19,7 @@
             };
 
         </script>
-        
+
     </text>)
 }
 
@@ -27,15 +28,13 @@
 </button>
 
 
-<div class="row">
+<div class="row mt-3">
     <div class="col-md-12">
-        <table id="testTable" class="dataTable table-bordered table-striped" style="width:100%" role="grid">
-        </table>
+        <table id="testTable" class="dataTable table-bordered table-striped" style="width:100%" role="grid"></table>
         @Html.DataTables(new DataTables("testTable")
-               {
-                   Dom = "rtlp",
-                   ClassName = "table-striped table-bordered",
-                   Columns = new List<DataTableColumn>
+   {
+       Dom = "Brtlp",
+       Columns = new List<DataTableColumn>
                    {
                    new DataTableColumn
                    {
@@ -46,20 +45,31 @@
                    {
                        data ="Description",
                        title = "Опис"
-                   },
-                   new DataTableColumn
-                   {
-                       data = "DbId",
-                       title = string.Empty,
-                       visible = false
                    }
+                   //new DataTableColumn
+                   //{
+                   //    data = "DbId",
+                   //    title = string.Empty,
+                   //    visible = false
+                   //}
                    },
-                   Order = new DataTablesOrdering { Column = 1, Type = OrderingType.desc },
-                   Searching = false,
-                   Selection = new DataTableSelection { Style = SelectionStyle.single }
-               })
+       Buttons = new List<DataTableButton>
+       {
+           new DataTableButton
+           {
+               className = "changeBtn",
+               text = "Змінити",
+               action = "$.modalAlert('a');"
+           }
+       },
+       Data = Model,
+       Order = new DataTablesOrdering { Column = 1, Type = OrderingType.desc },
+       Searching = false,
+       Select = true,
+       Selection = new DataTableSelection { Style = SelectionStyle.checkbox }
+   })
     </div>
-    </div>
+</div>
 
 
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Globalization;
 using System.Web.Mvc;
+using ALTSecurity.Web.Models;
 
 namespace ALTSecurity.Web.Controllers
 {
@@ -13,7 +14,9 @@ namespace ALTSecurity.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            var model = new List<Model>();
+            model.Add(new Model { Name = "Назва", Description = "desc0" });
+            return View(model);
         }
 
 

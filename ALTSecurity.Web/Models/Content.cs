@@ -10,4 +10,12 @@ namespace ALTSecurity.Web.Models
         nav = 0,
         blank = 1
     }
+
+    [Serializable]
+    public class Model
+    {
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+    }
 }

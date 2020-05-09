@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, такую же, как Дані відсутні.
+        /// </summary>
+        internal static string emptyTable {
+            get {
+                return ResourceManager.GetString("emptyTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, такую же, как Перша.
         /// </summary>
         internal static string first {
