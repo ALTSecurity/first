@@ -136,8 +136,6 @@ namespace ALTSecurity.Web.Utility
                     dataTablesBuilder.Append("],");
                 }
 
-
-
                 //columns
                 if (dataTable.Columns != null && dataTable.Columns.Count > 0)
                 {

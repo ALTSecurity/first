@@ -4,73 +4,193 @@
     ViewBag.Title = "Головна";
 }
 
+@section styles{
+    @Html.CssMinify(@<text>
+
+        <style>
+            p {
+                margin: 0;
+            }
+
+            .indicate {
+                margin-right: 10px;
+            }
+        </style>
+
+    </text>)
+}
+
 @section scripts{
     @Html.JsMinify(@<text>
         <script>
-            app.sectionInit = function () {
-                $('#showModal').on('click', function () {
-                    $.ajaxModalWindow('/Home/Modal',
-                        {
-                            success: function (m, result) {
-                                m.modal('hide');
+            var extraction = {
+                companyId: null,
+                domainName: null,
+                init: function () {
+                    var scope = extraction;
+
+                    $('#searchCompany').on('click', function () {
+                        $.mask('Зачекайте...');
+                        scope.domainName = $('#searchInput').val();
+                        scope.isAvailable(scope.domainName, function () {
+                            if (scope.companyId > 0) {
+                                scope.fillRisks(scope.companyId, scope.domainName);
                             }
-                        }, true);
-                });
+                            else {
+                                scope.loadMetadata(scope.domainName, function () {
+                                    scope.checkSubdomains(scope.companyId, scope.domainName, function () {
+                                        scope.fillRisks(scope.companyId, scope.domainName);
+                                    });
+                                });
+                            }
+                        });
+                    });
+                },
+                initModals: function () {
+                    var scope = this;
+                    $('#showDorks').on('click', function () {
+                        $.ajaxModalWindow('/Extraction/GetDorksInfo',
+                            {
+                                data: {
+                                    companyId: scope.companyId
+                                },
+                                success: function (m, result) {
+                                    m.modal('hide');
+                                }
+                            });
+                    });
+
+                    $('#showIps').on('click', function () {
+                        $.ajaxModalWindow('/Extraction/Subdomains',
+                            {
+                                data: {
+                                    companyId: scope.companyId
+                                },
+                                success: function (m, result) {
+                                    m.modal('hide');
+                                }
+                            });
+                    });
+
+                    $('#showСve').on('click', function () {
+                        $.ajaxModalWindow('/Extraction/GetCve',
+                            {
+                                data: {
+                                    companyId: scope.companyId
+                                },
+                                success: function (m, result) {
+                                    m.modal('hide');
+                                }
+                            });
+                    });
+                },
+                isAvailable: function (domainName, success) {
+                    var scope = this;
+                    $.ajax({
+                        url: '/Extraction/IsExists',
+                        data: {
+                            domainName: domainName
+                        },
+                        success: function (res) {
+                            if (res.code === 1) {
+                                scope.companyId = res.data;
+                                success();
+                            }
+                            else {
+                                $.modalAlert(res.msg);
+                            }
+                        }
+                    });
+                },
+                loadMetadata: function (domainName, success) {
+                    var scope = this;
+                    $.ajax({
+                        url: '/Extraction/ExtractMetadata',
+                        data: {
+                            domainName: domainName
+                        },
+                        success: function (res) {
+                            if (res.code === 1) {
+                                scope.companyId = res.data;
+                                success();
+                            }
+                            else {
+                                $.modalAlert(res.msg);
+                            }
+                        }
+                    });
+                },
+                checkSubdomains: function (companyId, domainName, success) {
+                    $.ajax({
+                        url: '/Extraction/CheckSubdomains',
+                        data: {
+                            companyId: companyId,
+                            domainName: domainName
+                        },
+                        success: function (res) {
+                            if (res.code === 1) {
+                                success();
+                            }
+                            else {
+                                $.modalAlert(res.msg);
+                            }
+                        }
+                    });
+                },
+                fillRisks: function (companyId, domainName) {
+                    var scope = this;
+                    $.ajax({
+                        url: '/Extraction/GetRiskData',
+                        data: {
+                            companyId: companyId,
+                            domainName: domainName
+                        },
+                        success: function (res) {
+                            if (res) {
+                                $('#main').css('text-align', '');
+                                $('#main').html(res);
+
+                                scope.initModals();
+
+                                var ctx = document.getElementById('riskScore').getContext('2d');
+                                var riskChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        datasets: [{
+                                            data: [100 * ($('#riskScore').data('point') !== 1 || $('#riskScore').data('point') !== 0 ? parseFloat($('#riskScore').data('point').replace(',', '.')) : parseFloat($('#riskScore').data('point'))), 100 - (100 * ($('#riskScore').data('point') !== '1' || $('#riskScore').data('point') !== '0' ? parseFloat($('#riskScore').data('point').replace(',', '.')) : parseFloat($('#riskScore').data('point'))))],
+                                            backgroundColor: [
+                                                'rgba(207, 0, 15, 1)',
+                                                'rgba(232, 232, 232, 1)'
+                                            ]
+                                        }]
+                                    },
+                                    options: {
+                                        tooltips: {
+                                            enabled: false
+                                        }
+                                    }
+
+                                });
+                            }
+                            else {
+                                $.modalAlert(res.msg);
+                            }
+                        },
+                        complete: function () {
+                            $.unmask();
+                        }
+                    });
+                }
             };
 
+            app.sectionInit = function () {
+                extraction.init();
+            };
         </script>
 
     </text>)
 }
 
-<button type="button" id="showModal" class="btn btn-primary">
-    Launch demo modal
-</button>
-
-
-<div class="row mt-3">
-    <div class="col-md-12">
-        <table id="testTable" class="dataTable table-bordered table-striped" style="width:100%" role="grid"></table>
-        @Html.DataTables(new DataTables("testTable")
-   {
-       Dom = "Brtlp",
-       Columns = new List<DataTableColumn>
-                   {
-                   new DataTableColumn
-                   {
-                       data ="Name",
-                       title = "Назва"
-                   },
-                   new DataTableColumn
-                   {
-                       data ="Description",
-                       title = "Опис"
-                   }
-                   //new DataTableColumn
-                   //{
-                   //    data = "DbId",
-                   //    title = string.Empty,
-                   //    visible = false
-                   //}
-                   },
-       Buttons = new List<DataTableButton>
-       {
-           new DataTableButton
-           {
-               className = "changeBtn",
-               text = "Змінити",
-               action = "$.modalAlert('a');"
-           }
-       },
-       Data = Model,
-       Order = new DataTablesOrdering { Column = 1, Type = OrderingType.desc },
-       Searching = false,
-       Select = true,
-       Selection = new DataTableSelection { Style = SelectionStyle.checkbox }
-   })
-    </div>
+<div id="main" style="text-align:center;">
+    <p><h1>Відсутні дані для відображення</h1></p>
 </div>
-
-
-
-

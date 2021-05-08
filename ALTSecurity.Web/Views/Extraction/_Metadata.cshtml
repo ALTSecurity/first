@@ -1,0 +1,48 @@
+﻿@model List<ALTSecurity.Web.Models.DorkFile>
+@using ALTSecurity.Web.Utility;
+@Html.ModalWindow("filesWindow", "Виявлені документи", @<text>
+
+    @foreach (var dork in Model)
+    {
+        <div class="col-md-12" style="margin-top: 10px;">
+            <div class="card">
+                <div class="card-header">
+                    <a href="@dork.Url">@dork.FileName</a>
+                </div>
+                <div class="card-body">
+                    @foreach (var data in dork.Metadata) {
+                        <div class="row">
+                            <div class="col-md-6">
+                                @(data.Type == ALTSecurity.Web.Models.MetadataType.author ? "Автор" : "Програма"): <b>@data.Value</b>
+                            </div>
+                            @if (data.Type == ALTSecurity.Web.Models.MetadataType.author)
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" disabled @(data.IsActual? "checked=\"checked\"": "") id="act1">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            Актуальність
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" disabled @(data.IsAuth? "checked=\"checked\"": "") id="auth1">
+                                        <label class="form-check-label" for="defaultCheck2">
+                                            Автентичність
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6">
+                                   @Html.Raw(@data.Notice)
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+</text>, ModalWindowSize.Medium, ModalWindowButtons.OkCancel)

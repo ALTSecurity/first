@@ -1,0 +1,148 @@
+﻿@model ALTSecurity.Web.Models.RiskModel
+@using ALTSecurity.Web.Utility
+@using ALTSecurity.Web.Models
+
+@Html.CssMinify(@<text>
+    <style>
+        p {
+            margin: 0;
+        }
+
+        .indicate {
+            margin-right: 10px;
+        }
+    </style>
+
+</text>)
+
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            @ViewBag.DomainName - Компанія
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><b>@Model.SourceCount</b> посилань на дану компанію.</p>
+                    <p>Дата першого виявлення: <b>@DateTime.Now.AddMinutes(-15).ToString("dd'.'MM'.'yyyy HH:mm:ss")</b></p>
+                    <p>Дата останнього виявлення: <b>@DateTime.Now.AddMinutes(-5).ToString("dd'.'MM'.'yyyy HH:mm:ss")</b></p>
+                </div>
+                <div class="col-md-4">
+                    <canvas data-point="@Model.TotalProbability" id="riskScore"></canvas>
+                </div>
+                @{
+                    string riskName = string.Empty;
+                    if(Model.TotalProbability >= 0.50)
+                    {
+                        riskName = "Високий";
+                    }
+                    else if(Model.TotalProbability < 0.50 && Model.TotalProbability > 0.20)
+                    {
+                        riskName = "Середній";
+                    }
+                    else
+                    {
+                        riskName = "Низький";
+                    }
+                }
+                <div class="col-md-2">
+                    <p><b>@riskName</b></p>
+                    <p>Ризик складає <b>@(100 * Model.TotalProbability)%</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12" style="margin-top: 10px;">
+    <div class="card">
+        <div class="card-header">
+            Спрацьовані правила
+        </div>
+        <div class="card-body">
+            @foreach (var trigger in Model.TriggeredRules)
+            {
+                string indicationColor = string.Empty;
+                if (trigger.Probability >= 0.50)
+                {
+                    indicationColor = "#ff0000";
+                }
+                else if (trigger.Probability < 0.50 && trigger.Probability > 0.20)
+                {
+                    indicationColor = "#ffff00";
+                }
+                else
+                {
+                    indicationColor = "#e5dede";
+                }
+
+                if (trigger.RuleType == RuleType.metadata)
+                {
+                    var dorks = (List<DorkFile>)trigger.Data;
+
+                    int checkedEmails = 0;
+                    int checkedVersions = 0;
+
+                    foreach (var dork in dorks)
+                    {
+                        foreach (var data in dork.Metadata)
+                        {
+                            if (data.Type == MetadataType.author)
+                            {
+                                checkedEmails++;
+                            }
+                            else
+                            {
+                                checkedVersions++;
+                            }
+                        }
+                    }
+
+                    <div class="row mt-2">
+                        <span class="indicate" style="background-color:@indicationColor;">&nbsp;</span>
+                        <div>
+                            <p><b>Виявлення метаданих доступних файлів</b> | @dorks.Where(x => x.Metadata.Count > 0).Count() файли з @dorks.Count джерел</p>
+                            <p>@checkedEmails перевірених email-адреси, @checkedVersions версії програмного забезпечення <a href="#" id="showDorks"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                        </div>
+                    </div>
+                }
+                else if (trigger.RuleType == RuleType.leakage)
+                {
+                    var leakage = (Leakege)trigger.Data;
+                    <div class="row mt-2">
+                        <span class="indicate" style="background-color:@indicationColor;">&nbsp;</span>
+                        <div>
+                            <p><b>Виявлення витоку даних</b> | @leakage.Mentions облікових даних з 1 джерела</p>
+                            <p>1 Paste - джерело. @leakage.Mentions нових виявлень облікових даних з паролями з одного джерела. Посилання: <a href="@leakage.Url">@leakage.Url</a></p>
+                        </div>
+                    </div>
+                }
+                else if (trigger.RuleType == RuleType.ips)
+                {
+                    var ips = (Tuple<int, int>)trigger.Data;
+
+                    <div class="row mt-2">
+                        <span class="indicate" style="background-color:@indicationColor">&nbsp;</span>
+                        <div>
+                            <p><b>Виявлення відкритих IP адрес</b></p>
+                            <p>@ips.Item1 відкритих IP адрес з @ips.Item2 в рамках домену компанії <a href="#" id="showIps"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    var versions = (Tuple<int, int>)trigger.Data;
+                    <div class="row mt-2">
+                        <span class="indicate" style="background-color:@indicationColor">&nbsp;</span>
+                        <div>
+                            <p><b>Виявлення вразливих версій програмного забезпечення</b> | @versions.Item1 версії з @versions.Item2 перевірених</p>
+                            <p>@versions.Item1 версії програмного забезпечення відповідно до <a href="https://cve.mitre.org/">https://cve.mitre.org/</a> <a href="#" id="showСve"><i class="fa fa-eye" aria-hidden="true"></i></a></p>
+                        </div>
+                    </div>
+
+                }
+            }
+            
+        </div>
+    </div>
+</div>

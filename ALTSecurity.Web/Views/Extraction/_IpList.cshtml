@@ -1,0 +1,22 @@
+﻿@using ALTSecurity.Web.Utility;
+@model  List<ALTSecurity.Web.Models.ServiceResult>
+@Html.ModalWindow("ipsWindow", "Відкриті піддомени", @<text>
+    <table id="ipTable" class="dataTable table-bordered table-striped" style="width:100%" role="grid"></table>
+    @Html.DataTables(new DataTables("ipTable")
+                   {
+                       Dom = "rtlp",
+                       Columns = new List<DataTableColumn>
+                       {
+                       new DataTableColumn
+                       {
+                           data ="DomainName",
+                           title = "Піддомен"
+                       }
+                       },
+                       Data = Model,
+                       Order = new DataTablesOrdering { Column = 0, Type = OrderingType.desc },
+                       Searching = false,
+                       Selection = new DataTableSelection { Style = SelectionStyle.single }
+                   })
+
+</text>, ModalWindowSize.Medium, ModalWindowButtons.OkCancel)
